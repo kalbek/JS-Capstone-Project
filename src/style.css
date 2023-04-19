@@ -64,6 +64,10 @@ footer {
   padding: 2rem 0;
   display: flex;
   justify-content: flex-start;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
 }
 
 footer .content {
