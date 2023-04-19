@@ -57,3 +57,17 @@ header .container {
   height: 4rem;
   content: url("./images/tvm-header-logo.png");
 }
+
+footer {
+  border-top: 2px solid black;
+  border-bottom: 2px solid black;
+  padding: 2rem 0;
+  display: flex;
+  justify-content: flex-start;
+}
+
+footer .content {
+  padding-left: 10rem;
+  font-weight: 700;
+  font-size: 18px;
+}
