@@ -1,3 +1,59 @@
 * {
-  background-color: #fff;
+  font-family: "Lato", sans-serif;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-column-centered {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.flex-centered {
+  display: flex;
+  justify-content: center;
+}
+
+.flex-wrap {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.relative {
+  position: relative;
+}
+
+main {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+main,
+header {
+  padding: 0 10%;
+}
+
+header .container {
+  padding-left: 9rem;
+}
+
+.flex-spaced {
+  display: flex;
+  justify-content: space-between;
+}
+
+.logo {
+  width: 10rem;
+  height: 4rem;
+  content: url("./images/tvm-header-logo.png");
 }
