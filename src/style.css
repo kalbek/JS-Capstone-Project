@@ -146,3 +146,142 @@ button {
   width: 20px;
   content: url("./images/heart.png");
 }
+
+.comments {
+    position: fixed;
+    width: 100vw;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    background-color: rgba(255, 255, 255, 0.8);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .comments .container {
+    opacity: 1;
+    width: 70%;
+    background-color: #fff;
+    height: 95%;
+    border: 2px solid #71c5bb;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: scroll;
+    border-radius: 5px;
+    position: relative;
+  }
+  
+  .show-details {
+    margin-left: -4rem;
+  }
+
+  .show-details .descriptions {
+    width: 37vw;
+    margin-top: -3%;
+    font-size: 18px;
+    font-weight: 550;
+  }
+
+  .card-comments {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
+  
+  .comment-header {
+    margin-top: 1rem;
+    font-size: 22px;
+    font-weight: 600;
+  }
+  
+  .comment-lists {
+    width: 100%;
+  }
+  
+  .close {
+    width: 2%;
+    content: url("./images/close.png");
+    height: 3%;
+    position: absolute;
+    top: 3%;
+    right: 3%;
+  }
+
+  input {
+    width: 200px;
+    margin-bottom: 1rem;
+    height: 25px;
+    border: 3px solid #71c5bb;
+    font-size: 16px;
+    font-weight: 600;
+  }
+  
+  textarea {
+    border: 3px solid #71c5bb;
+  }
+  
+  .add-comment {
+    margin-bottom: 2rem;
+  }
+  
+  .commnet-controls {
+    width: 100%;
+    padding-bottom: 5rem;
+  }
+  
+  #submit-comment {
+    position: absolute;
+    margin-top: 13rem;
+    margin-bottom: 2rem;
+  }
+  
+  input::placeholder {
+    color: black;
+  }
+
+  .image-close img {
+    margin-top: 2%;
+    width: 35rem;
+    margin-left: -6rem;
+    height: auto;
+    object-fit: contain;
+    border: 3px solid #71c5bb;
+  }
+  
+  .show-name {
+    display: flex;
+    justify-content: center;
+    margin-top: -5%;
+    font-size: 40px;
+    font-weight: 600;
+  }
+  
+  .visible {
+    display: visible;
+  }
+  
+  .likes-count p {
+    font-weight: 700;
+    font-size: 13px;
+    margin-top: 2px;
+  }
+  
+  .show-title p {
+    font-weight: 700;
+    margin-top: 1px;
+    margin-left: 0.3rem;
+  }
+  
+  #tv-shows p {
+    font-weight: 800;
+  }
+  
+  .title-like .likes {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-right: 0.5rem;
+  }
