@@ -77,6 +77,13 @@ class Shows {
                         </div>
                     </div>
                 `;
+          // handle close button click event (close comments popup)
+          document.body.style.overflow = "hidden";
+          const close = document.getElementById("close");
+          close.addEventListener("click", () => {
+            commentBody.innerHTML = "";
+            document.body.style.overflow = "visible";
+          });
         });
     });
   };
