@@ -1,19 +1,18 @@
 class Shows {
-    static apiEndPoint = "https://api.tvmaze.com/shows/1/episodes";
+    static apiEndPoint = 'https://api.tvmaze.com/shows/1/episodes';
+
     static getShows = async () => {
-      const response = await fetch(this.apiEndPoint).then((response) =>
-        response.json()
-      );
+      const response = await fetch(this.apiEndPoint).then((response) => response.json());
       return response;
     };
-  
+
     static updateUI = async () => {
       const shows = await Shows.getShows();
-      const card = document.getElementById("card");
-      card.classList.add("wrap", "flex");
-  
-      const tvShows = document.querySelector("#tv-shows p");
-      tvShows.innerHTML = "TV Shows " + "(" + shows.length + ")";
+      const card = document.getElementById('card');
+      card.classList.add('wrap', 'flex');
+
+      const tvShows = document.querySelector('#tv-shows p');
+      tvShows.innerHTML = `${'TV Shows ('}${shows.length})`;
       shows.forEach((show, index) => {
         card.innerHTML += `
                   <div class="container flex-column">
@@ -32,5 +31,5 @@ class Shows {
               `;
       });
     };
-  }
-  module.exports = Shows;
+}
+module.exports = Shows;

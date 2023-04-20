@@ -1,12 +1,11 @@
-import "./style.css";
-import Shows from "./modules/Shows";
+import './style.css';
+import Shows from './modules/Shows.js';
 
 function component() {
-  const element = document.createElement("div");
-    
+  const element = document.createElement('div');
+
   Shows.updateUI();
 
-  
   return element;
 }
 
