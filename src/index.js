@@ -1,2 +1,12 @@
 import './style.css';
-// const apiEndPoint = 'https://api.tvmaze.com/shows/1/episodes';
+import Shows from './modules/Shows.js';
+
+function component() {
+  const element = document.createElement('div');
+
+  Shows.updateUI();
+
+  return element;
+}
+
+document.body.appendChild(component());
