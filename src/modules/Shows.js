@@ -1,21 +1,19 @@
 class Shows {
-  static apiEndPoint = "https://api.tvmaze.com/shows/1/episodes";
+  static apiEndPoint = 'https://api.tvmaze.com/shows/1/episodes';
 
   static getShows = async () => {
-    const response = await fetch(this.apiEndPoint).then((response) =>
-      response.json()
-    );
+    const response = await fetch(this.apiEndPoint).then((response) => response.json());
     return response;
   };
 
   static updateUI = async () => {
     const shows = await Shows.getShows();
-    const card = document.getElementById("card");
-    card.classList.add("wrap", "flex");
-    const commentBody = document.getElementById("comment-section");
+    const card = document.getElementById('card');
+    card.classList.add('wrap', 'flex');
+    const commentBody = document.getElementById('comment-section');
 
-    const tvShows = document.querySelector("#tv-shows p");
-    tvShows.innerHTML = `${"TV Shows ("}${shows.length})`;
+    const tvShows = document.querySelector('#tv-shows p');
+    tvShows.innerHTML = `${'TV Shows ('}${shows.length})`;
     shows.forEach((show, index) => {
       card.innerHTML += `
                   <div class="container flex-column">
@@ -36,11 +34,12 @@ class Shows {
 
     // dynamically create comments for each listed shows on home page
     shows.forEach((show, index) => {
-      document
-        .getElementById("comment-" + index)
-        .addEventListener("click", () => {
-          commentBody.innerHTML = "";
-          commentBody.innerHTML = `
+      // select the comment button
+      const commentButton = document.getElementById(`comment-${index}`);
+      // when the each comment button is clicked display the popup
+      commentButton.addEventListener('click', () => {
+        commentBody.innerHTML = '';
+        commentBody.innerHTML = `
                         <div class="comments visible" id="comments">
                             <div class="container">
                                 <div class="image-close flex">
@@ -77,14 +76,15 @@ class Shows {
                         </div>
                     </div>
                 `;
-          // handle close button click event (close comments popup)
-          document.body.style.overflow = "hidden";
-          const close = document.getElementById("close");
-          close.addEventListener("click", () => {
-            commentBody.innerHTML = "";
-            document.body.style.overflow = "visible";
-          });
+        // handle close comments popup
+        document.body.style.overflow = 'hidden';
+        const close = document.getElementById('close');
+        close.addEventListener('click', () => {
+          // remove the comments from parent div
+          commentBody.innerHTML = '';
+          document.body.style.overflow = 'visible';
         });
+      });
     });
   };
 }
