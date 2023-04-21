@@ -14,8 +14,7 @@ class Shows {
 
     // get all shows from baseApi
     static getShows = async () => {
-      const response = await fetch(this.baseApi).then((response) => response.json());
-      return response;
+      return await fetch(this.baseApi).then((response) => response.json());
     };
 
     // get likes from involvement api
@@ -101,7 +100,6 @@ class Shows {
                       `;
       });
 
-      // dynamically create comments for each listed shows on home page
       shows.forEach((show, index) => {
         // handle adding likes when like button is clicked
         const likeHeart = document.getElementById(`heart${show.id}`);
