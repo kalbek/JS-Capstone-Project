@@ -14,7 +14,8 @@ class Shows {
 
     // get all shows from baseApi
     static getShows = async () => {
-      return await fetch(this.baseApi).then((response) => response.json());
+      const response = await fetch(this.baseApi).then((response) => response.json());
+      return response;
     };
 
     // get likes from involvement api
