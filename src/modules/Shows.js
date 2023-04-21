@@ -7,6 +7,7 @@ class Shows {
     };
 
     static getLikes = async () => {
+      const likesUrl = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/tV364kOhzeIf5RoUn6sV/likes';
       const action = {
         method: 'GET',
         headers: {
@@ -14,7 +15,7 @@ class Shows {
         },
       };
       const response = await fetch(
-        'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/tV364kOhzeIf5RoUn6sV/likes',
+        likesUrl,
         action,
       );
       if (!response.ok) {
