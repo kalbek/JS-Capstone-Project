@@ -1,80 +1,82 @@
 class Shows {
-    static appId = 'tV364kOhzeIf5RoUn6sV';
+  static appId = "tV364kOhzeIf5RoUn6sV";
 
-    static baseApi = 'https://api.tvmaze.com/shows/1/episodes';
+  static baseApi = "https://api.tvmaze.com/shows/1/episodes";
 
-    static involvmentAPI =
-      'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/';
+  static involvmentAPI =
+    "https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/";
 
-    static likesURL = `${this.involvmentAPI}apps/${this.appId}/likes`;
+  static likesURL = `${this.involvmentAPI}apps/${this.appId}/likes`;
 
-    static commentsURL = `${this.involvmentAPI}apps/${this.appId}/comments`;
+  static commentsURL = `${this.involvmentAPI}apps/${this.appId}/comments`;
 
-    static globalIndex = 0;
+  static globalIndex = 0;
 
-    // get all shows from baseApi
-    static getShows = async () => {
-      const response = await fetch(this.baseApi).then((response) => response.json());
-      return response;
+  // get all shows from baseApi
+  static getShows = async () => {
+    const response = await fetch(this.baseApi).then((response) =>
+      response.json()
+    );
+    return response;
+  };
+
+  // get likes from involvement api
+  static getLikesOrComments = async (url) => {
+    const action = {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
     };
 
-    // get likes from involvement api
-    static getLikesOrComments = async (url) => {
-      const action = {
-        method: 'GET',
-        headers: {
-          'Content-type': 'application/json; charset=UTF-8',
-        },
-      };
-
-      try {
-        const response = await fetch(url, action);
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        // Parse the response body as JSON
-        const data = await response.json();
-        return data; // Return the parsed JSON data
-      } catch (error) {
-        return error;
+    try {
+      const response = await fetch(url, action);
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
       }
-    };
+      // Parse the response body as JSON
+      const data = await response.json();
+      return data; // Return the parsed JSON data
+    } catch (error) {
+      return error;
+    }
+  };
 
-    // set likes or comments based on the url passed
-    static setLikesOrComments = async (body, url) => {
-      const action = {
-        method: 'POST',
-        body: JSON.stringify(body),
-        headers: {
-          'Content-type': 'application/json; charset=UTF-8',
-        },
-      };
-      try {
-        const response = await fetch(url, action);
-        if (response.ok) {
-          const responseData = await response.text(); // Parse response as plain text
-          await Shows.updateUI();
-          return responseData;
-        }
-        // Handle non-2xx response status codes
-        return null; // or throw an error or return an appropriate value
-      } catch (error) {
-        // Handle network errors or other exceptions
-        return null; // or throw an error or return an appropriate value
+  // set likes or comments based on the url passed
+  static setLikesOrComments = async (body, url) => {
+    const action = {
+      method: "POST",
+      body: JSON.stringify(body),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    };
+    try {
+      const response = await fetch(url, action);
+      if (response.ok) {
+        const responseData = await response.text(); // Parse response as plain text
+        await Shows.updateUI();
+        return responseData;
       }
-    };
+      // Handle non-2xx response status codes
+      return null; // or throw an error or return an appropriate value
+    } catch (error) {
+      // Handle network errors or other exceptions
+      return null; // or throw an error or return an appropriate value
+    }
+  };
 
-    // handle updating the UI with every changes
-    static updateUI = async () => {
-      const shows = await Shows.getShows();
-      const card = document.getElementById('card');
-      const likes = await Shows.getLikesOrComments(this.likesURL);
-      const commentBody = document.getElementById('comment-section');
-      const tvShows = document.querySelector('#tv-shows p');
-      tvShows.innerHTML = `${'TV Shows ('}${shows.length})`;
-      card.innerHTML = '';
-      shows.forEach((show, index) => {
-        card.innerHTML += `
+  // handle updating the UI with every changes
+  static updateUI = async () => {
+    const shows = await Shows.getShows();
+    const card = document.getElementById("card");
+    const likes = await Shows.getLikesOrComments(this.likesURL);
+    const commentBody = document.getElementById("comment-section");
+    const tvShows = document.querySelector("#tv-shows p");
+    tvShows.innerHTML = `${"TV Shows ("}${shows.length})`;
+    card.innerHTML = "";
+    shows.forEach((show, index) => {
+      card.innerHTML += `
                           <div class='container flex-column'>
                               <div class='card-image'><img src='${
                                 show.image.medium
@@ -89,7 +91,7 @@ class Shows {
                                       }' class='icon ptr'></div>
                                       <div class='likes-count'><p>${
                                         likes.filter(
-                                          (like) => like.item_id - 1 === index,
+                                          (like) => like.item_id - 1 === index
                                         )[0].likes
                                       } likes</p></div>
                                   </div>
@@ -99,41 +101,41 @@ class Shows {
                               </div>
                           </div>
                       `;
-      });
+    });
 
-      shows.forEach((show, index) => {
-        // handle adding likes when like button is clicked
-        const likeHeart = document.getElementById(`heart${show.id}`);
-        likeHeart.addEventListener('click', () => {
-          Shows.setLikesOrComments(
-            {
-              item_id: show.id,
-            },
-            this.likesURL,
+    shows.forEach((show, index) => {
+      // handle adding likes when like button is clicked
+      const likeHeart = document.getElementById(`heart${show.id}`);
+      likeHeart.addEventListener("click", () => {
+        Shows.setLikesOrComments(
+          {
+            item_id: show.id,
+          },
+          this.likesURL
+        );
+      });
+      // select the comment button
+      const commentButton = document.getElementById(`comment-${index}`);
+      // when the each comment button is clicked display the popup
+      commentButton.addEventListener("click", () => {
+        //   track which movie is selected to match the correct comment
+        Shows.globalIndex = index + 1;
+        // display comments on comments section
+        async function popuplateComments() {
+          const commenting = await Shows.getLikesOrComments(
+            `https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/tV364kOhzeIf5RoUn6sV/comments?item_id=${Shows.globalIndex}`
           );
-        });
-        // select the comment button
-        const commentButton = document.getElementById(`comment-${index}`);
-        // when the each comment button is clicked display the popup
-        commentButton.addEventListener('click', () => {
-          //   track which movie is selected to match the correct comment
-          Shows.globalIndex = index + 1;
-          // display comments on comments section
-          async function popuplateComments() {
-            const commenting = await Shows.getLikesOrComments(
-              `https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/tV364kOhzeIf5RoUn6sV/comments?item_id=${Shows.globalIndex}`,
-            );
-            // update the list of comments section with fetched comments data
-            const commentSection = document.getElementById('comment-lists');
-            commentSection.innerHTML = '';
-            commenting.forEach((comment) => {
-              commentSection.innerHTML += `<p>${comment.creation_date} ${comment.username} ${comment.comment}</p>`;
-            });
-          }
-          popuplateComments();
-          //   ceate and display update the comments popup
-          commentBody.innerHTML = '';
-          commentBody.innerHTML = `
+          // update the list of comments section with fetched comments data
+          const commentSection = document.getElementById("comment-lists");
+          commentSection.innerHTML = "";
+          commenting.forEach((comment) => {
+            commentSection.innerHTML += `<p>${comment.creation_date} ${comment.username} ${comment.comment}</p>`;
+          });
+        }
+        popuplateComments();
+        //   ceate and display update the comments popup
+        commentBody.innerHTML = "";
+        commentBody.innerHTML = `
                       <div class="comments visible" id="comments">
                           <div class="container">
                               <div class="image-close flex">
@@ -170,16 +172,44 @@ class Shows {
                       </div>
                   </div>
               `;
-          // handle close comments popup
-          document.body.style.overflow = 'hidden';
-          const close = document.getElementById('close');
-          close.addEventListener('click', () => {
-            // remove the comments from parent div
-            commentBody.innerHTML = '';
-            document.body.style.overflow = 'visible';
-          });
+        // handle close comments popup
+        document.body.style.overflow = "hidden";
+        const close = document.getElementById("close");
+        close.addEventListener("click", () => {
+          // remove the comments from parent div
+          commentBody.innerHTML = "";
+          document.body.style.overflow = "visible";
         });
+        // handle comments updating on api (add comments)
+        const name = document.getElementById(`input${index}`);
+        const comment = document.getElementById(`textarea${index}`);
+
+        const addCommentButtons = document.querySelectorAll(
+          ".add-comment-button"
+        );
+        const addButtonArray = [...addCommentButtons];
+        async function someFn() {
+          await Promise.all(
+            addButtonArray.map(async (button) => {
+              button.addEventListener("click", async () => {
+                await Shows.setLikesOrComments(
+                  {
+                    item_id: index + 1,
+                    username: name.value,
+                    comment: comment.value,
+                  },
+                  `https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/tV364kOhzeIf5RoUn6sV/comments?item_id=${index}`
+                );
+              });
+
+              Shows.globalIndex = index + 1;
+            })
+          );
+        }
+
+        someFn();
       });
-    };
+    });
+  };
 }
 module.exports = Shows;
