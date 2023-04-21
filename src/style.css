@@ -1,3 +1,4 @@
+/* taken */
 * {
   font-family: "Lato", sans-serif;
 }
@@ -52,21 +53,12 @@ header .container {
   justify-content: space-between;
 }
 
-footer {
-  border-top: 2px solid black;
-  border-bottom: 2px solid black;
-  padding: 2rem 0;
-  display: flex;
-  justify-content: flex-start;
-  bottom: 0;
-  right: 0;
-  left: 0;
+.bgr {
+  background-color: red;
 }
 
-footer .content {
-  padding-left: 10rem;
-  font-weight: 700;
-  font-size: 18px;
+.bordered {
+  outline: 1px solid black;
 }
 
 .cards {
@@ -136,6 +128,12 @@ header {
   object-fit: cover;
 }
 
+.card-comments {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
 button {
   height: 40px;
   border-radius: 3px;
@@ -166,7 +164,7 @@ button {
 .comments .container {
   opacity: 1;
   width: 70%;
-  background-color: #fff;
+  background-color: rgba(250, 250, 250, 0.9);
   height: 95%;
   border: 2px solid #71c5bb;
   display: flex;
@@ -186,12 +184,6 @@ button {
   margin-top: -3%;
   font-size: 18px;
   font-weight: 550;
-}
-
-.card-comments {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 1rem;
 }
 
 .comment-header {
@@ -235,7 +227,7 @@ textarea {
   padding-bottom: 5rem;
 }
 
-#submit-comment {
+.add-comment-button {
   position: absolute;
   margin-top: 13rem;
   margin-bottom: 2rem;
@@ -274,4 +266,18 @@ input::placeholder {
   flex-direction: column;
   align-items: center;
   padding-right: 0.5rem;
+}
+
+footer {
+  border-top: 2px solid black;
+  border-bottom: 2px solid black;
+  padding: 2rem 0;
+  display: flex;
+  justify-content: flex-start;
+}
+
+footer .content {
+  padding-left: 10rem;
+  font-weight: 700;
+  font-size: 18px;
 }
