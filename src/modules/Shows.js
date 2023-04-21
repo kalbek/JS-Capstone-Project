@@ -210,6 +210,15 @@ class Shows {
         someFn();
       });
     });
+    // display comments on comments section
+    const commenting = await Shows.getLikesOrComments(
+      `https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/tV364kOhzeIf5RoUn6sV/comments?item_id=${Shows.globalIndex}`
+    );
+    const commentSection = document.getElementById("comment-lists");
+    commentSection.innerHTML = "";
+    commenting.forEach((comment) => {
+      commentSection.innerHTML += `<p>${comment.creation_date} ${comment.username} ${comment.comment}</p>`;
+    });
   };
 }
 module.exports = Shows;
