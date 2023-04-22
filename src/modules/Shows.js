@@ -75,7 +75,7 @@ class Shows {
                   `;
     });
 
-    // dynamically create comments for each listed shows on home page
+    // dynamically create comments for each listed shows on home page.
     shows.forEach((show, index) => {
       // select the comment button
       const commentButton = document.getElementById(`comment-${index}`);
