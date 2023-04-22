@@ -18,6 +18,12 @@ class Shows {
     return response;
   };
 
+  // count all items
+  static countAllItems = async () => {
+    let shows = await this.getShows();
+    return shows.length
+  }
+
   // get likes from involvement api
   static getLikesOrComments = async (url) => {
     const action = {
@@ -71,7 +77,7 @@ class Shows {
     const likes = await Shows.getLikesOrComments(this.likesURL);
     const commentBody = document.getElementById('comment-section');
     const tvShows = document.querySelector('#tv-shows p');
-    tvShows.innerHTML = `${'TV Shows ('}${shows.length})`;
+    tvShows.innerHTML = `${"TV Shows ("}${await this.countAllItems()})`;
     card.innerHTML = '';
     shows.forEach((show, index) => {
       card.innerHTML += `
