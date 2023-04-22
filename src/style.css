@@ -227,6 +227,20 @@ textarea {
   padding-bottom: 5rem;
 }
 
+#all-likes {
+  right: 12rem;
+  top: 13%;
+  font-weight: 600;
+  position: absolute;
+}
+
+#all-comments {
+  right: 12rem;
+  top: 10%;
+  font-weight: 600;
+  position: absolute;
+}
+
 .add-comment-button {
   position: absolute;
   margin-top: 13rem;
