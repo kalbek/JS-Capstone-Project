@@ -10,7 +10,13 @@ class Shows {
 
   static commentsURL = `${this.involvmentAPI}apps/${this.appId}/comments`;
 
+  static currentCommentCount = 0;
+
   static globalIndex = 0;
+
+  static allLikesCount = 0;
+
+  static allCommentsCount = 0;
 
   // get all shows from baseApi
   static getShows = async () => {
@@ -22,7 +28,31 @@ class Shows {
   static countAllItems = async () => {
     const shows = await this.getShows();
     return shows.length;
-  }
+  };
+
+  static countCommentsForItems = async () => {
+    const itemIds = Array.from({ length: 39 }, (_, index) => index + 1);
+    let totalCommentsCount = 0;
+
+    // Create an array of promises for each fetch request
+    const requests = itemIds.map((itemId) => fetch(
+      `https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/tV364kOhzeIf5RoUn6sV/comments?item_id=${itemId}`,
+    )
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        return [];
+      })
+      .then((comments) => {
+        // Accumulate comments count for each item
+        totalCommentsCount += comments.length;
+      })
+      .catch((error) => error));
+
+    await Promise.all(requests); // Wait for all requests to complete
+    return totalCommentsCount;
+  };
 
   // get likes from involvement api
   static getLikesOrComments = async (url) => {
@@ -70,8 +100,28 @@ class Shows {
     }
   };
 
+  static getAllLikesCount = async () => {
+    this.allLikesCount = 0;
+    const likes = await this.getLikesOrComments(this.likesURL);
+    likes.forEach((like) => {
+      this.allLikesCount += like.likes;
+    });
+    return likes;
+  };
+
   // handle updating the UI with every changes
   static updateUI = async () => {
+    await this.getAllLikesCount();
+
+    const totolComments = await this.countCommentsForItems();
+    document.getElementById(
+      'all-likes',
+    ).innerHTML = `Total Likes: ${this.allLikesCount}`;
+    document.getElementById(
+      'all-comments',
+    ).innerHTML = `Total Comments: ${totolComments}`;
+    // commentTitle.innerHTML = `<p>hello</p>`;
+
     const shows = await Shows.getShows();
     const card = document.getElementById('card');
     const likes = await Shows.getLikesOrComments(this.likesURL);
@@ -131,12 +181,15 @@ class Shows {
           );
           // update the list of comments section with fetched comments data
           const commentSection = document.getElementById('comment-lists');
+          const commentTitle = document.getElementById('titled-comment');
           commentSection.innerHTML = '';
-          commenting.forEach((comment) => {
+          commenting.forEach((comment, index) => {
             commentSection.innerHTML += `<p>${comment.creation_date} ${comment.username} ${comment.comment}</p>`;
+            commentTitle.innerHTML = `<p>Comments (${index + 1})</p>`;
           });
         }
         popuplateComments();
+
         //   ceate and display update the comments popup
         commentBody.innerHTML = '';
         commentBody.innerHTML = `
@@ -158,9 +211,9 @@ class Shows {
                                     <div>Airtime: ${show.airtime}</div>
                                  </div>
                                 </div>
-                                <div class="comment-header flex-centered ">
-                                  Comments
-                                </div>
+                                <div class="comment-header flex-centered id="comment-title">
+                                <p id='titled-comment'></p>
+                                  </div>
                                 <div class="add-comment flex-column-centered">
                                     <div class=" comment-lists flex-column" id="comment-lists">
                                        <!-- comments goes here ... -->
